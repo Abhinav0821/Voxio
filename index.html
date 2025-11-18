@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voxio | Group 32</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-primary: #00f2ff; /* Cyan */
+            --accent-secondary: #bd00ff; /* Purple */
+            --gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7; 
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+        .logo span { color: var(--accent-primary); }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        .btn-nav {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--accent-primary);
+            border-radius: 4px;
+            color: var(--accent-primary);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-secondary) !important; 
+            color: #ffffff !important;                     
+            border-color: var(--accent-secondary) !important;
+        }
+
+        .hero {
+            position: relative; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden; /* Hide overflowing slides */
+        }
+
+        .hero-background-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Below hero content */
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* For parallax effect */
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Smooth fade transition */
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Overlay to darken background images and make text readable */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10,10,10,0.7); /* Dark overlay */
+            z-index: 2; /* Above slides, below content */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3; /* Above overlay */
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* To center content vertically within hero */
+        }
+
+        /* SLIDESHOW NAVIGATION ARROWS */
+        .slideshow-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2%; /* Padding from sides */
+            z-index: 4; /* Above all */
+        }
+
+        .slideshow-nav-arrow {
+            background: rgba(0, 0, 0, 0.4);
+            border: none;
+            color: var(--accent-primary);
+            font-size: 2.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+            line-height: 1; /* Prevents icon shifting */
+        }
+
+        .slideshow-nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--accent-secondary);
+        }
+
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h2 {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        .tagline-box {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+        }
+
+        /* --- SECTIONS COMMON --- */
+        section {
+            padding: 6rem 10%;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .section-title span {
+            border-bottom: 3px solid var(--accent-secondary);
+        }
+
+        /* --- SUMMARY SECTION --- */
+        #summary p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 900px;
+            margin: 0 auto 1.5rem auto;
+            text-align: justify; 
+            text-justify: inter-word;
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+
+        .tech-badge {
+            background: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+        
+        .tech-badge:hover {
+            border-color: var(--accent-secondary);
+        }
+
+        /* --- FEATURES CARD GRID --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-primary);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- DEMO VIDEO --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- TEAM SECTION --- */
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .member {
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .member:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #333, #111);
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--accent-secondary);
+            border: 2px solid var(--accent-secondary);
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.2);
+        }
+
+        .member h4 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .member span { color: var(--text-muted); font-size: 0.9rem; font-family: var(--font-mono); }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 4rem 10%;
+            text-align: center;
+            background: #050505;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .github-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            background: var(--text-main);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .github-btn:hover {
+            background: var(--accent-primary);
+            transform: scale(1.05);
+        }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 1rem; padding: 1rem; }
+            nav ul { gap: 1rem; font-size: 0.8rem; }
+            .hero h1 { font-size: 3rem; }
+            #summary p { text-align: left; }
+            .slideshow-nav { padding: 0 10px; }
+            .slideshow-nav-arrow { font-size: 2rem; padding: 0.3rem 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">VOXIO <span>.</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#summary">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#team" class="btn-nav">Group 32</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-background-slideshow">
+            <div class="slide active" style="background-image: url('bg.png');"></div>
+            <div class="slide" style="background-image: url('slide1.png');"></div>
+            <div class="slide" style="background-image: url('slide2.png');"></div>
+            <div class="slide" style="background-image: url('slide3.png');"></div>
+            <div class="slide" style="background-image: url('slide4.png');"></div>
+            <div class="slide" style="background-image: url('slide5.png');"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="tagline-box">COMPUTER NETWORKS PROJECT</div>
+            <h1>VOXIO</h1>
+            <h2>by Group 32</h2>
+            <p>A decentralized, encrypted mesh messenger built for the modern local network.</p>
+            <a href="#summary" class="btn-nav" style="border-color: var(--text-main); color: var(--text-main);">Explore Project</a>
+        </div>
+
+        <div class="slideshow-nav">
+            <button class="slideshow-nav-arrow prev-slide"><i class="fas fa-chevron-left"></i></button>
+            <button class="slideshow-nav-arrow next-slide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section id="summary">
+        <h2 class="section-title"><span>Project Overview</span></h2>
+        
+        <p>
+            Voxio acts as a serverless, decentralized network node that establishes an ad-hoc encrypted mesh using a hybrid protocol architecture. It utilizes <strong>UDP Broadcasting</strong> for "Zero-Config" peer discovery, allowing nodes to automatically handshake on a LAN without manual IP entry. Once discovered, peers form stateful <strong>TCP Connections</strong> to create a resilient daisy-chain topology, ensuring reliable delivery where every user acts as both a client and a router.
+        </p>
+        
+        <p>
+            The system implements a robust "Gossip" protocol driven by a <strong>Controlled Flooding</strong> algorithm. To prevent network congestion and infinite loops (the Count-to-Infinity problem), all packets utilize a <strong>Time-To-Live (TTL)</strong> mechanism. A key feature of Voxio is its built-in <strong>Application-Layer Traceroute</strong>, a diagnostic tool that parses packet metadata to reconstruct and visualize the exact multi-hop path a message takes through the mesh, verifying active routing logic in real-time.
+        </p>
+
+        <p>
+            Security and user experience are prioritized through modern cryptographic standards and a rich terminal interface. All private communications are secured using the <strong>Sodium</strong> library's high-speed elliptic curve cryptography (Curve25519), guaranteeing end-to-end privacy. The architecture is further hardened with internal traffic policing and <strong>DoS Protection</strong>, enforcing strict 4KB buffer limits to prevent memory bombs. Powered by non-blocking, multi-threaded I/O, Voxio ensures the interface remains responsive even under heavy network traffic.
+        </p>
+        
+        <div class="tech-stack">
+            <div class="tech-badge">C++17</div>
+            <div class="tech-badge">UDP & TCP</div>
+            <div class="tech-badge">Overlay Routing</div>
+            <div class="tech-badge">Poly1305 Crypto</div>
+            <div class="tech-badge">Multi-threading</div>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2 class="section-title"><span>Key Features</span></h2>
+        <div class="grid-container">
+            <div class="card">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Ad-Hoc Mesh Topology</h3>
+                <p>Implements a "Gossip" protocol where every peer acts as a router. If a direct link fails, the mesh automatically reroutes messages through neighbors via a daisy-chain.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-fingerprint"></i>
+                <h3>Poly1305 Integrity</h3>
+                <p>Beyond standard encryption, every packet is signed with a Poly1305 Message Authentication Code (MAC) to prevent tampering during relay hops.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-wifi"></i>
+                <h3>Zero-Config Discovery</h3>
+                <p>Utilizes UDP Broadcasting to instantly detect local peers. The system handles automatic handshakes, allowing users to join the mesh without manual configuration.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-route"></i>
+                <h3>Overlay Traceroute</h3>
+                <p>A built-in network diagnostic tool that appends node signatures to packet headers, allowing the receiver to visualize the exact path (Trace) the message took.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-virus"></i>
+                <h3>DoS Traffic Policing</h3>
+                <p>Features internal buffer limits (4KB) and strict disconnect logic to protect the node from memory bombs and malformed packets.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-stopwatch"></i>
+                <h3>TTL & Flooding</h3>
+                <p>Uses a Controlled Flooding algorithm with Time-To-Live (TTL) counters to propagate messages across segmented networks while preventing routing loops.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" style="background: #0f0f0f;">
+        <h2 class="section-title"><span>System Demo</span></h2>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" 
+                        title="Voxio Demo" frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="team">
+        <h2 class="section-title"><span>The Team</span></h2>
+        <div class="team-grid">
+            
+            <div class="member">
+                <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+                <h4>Shaman Ranjan</h4>
+                <span>2023498</span>
+            </div>
+
+            <div class="member">
+                <div class="avatar"><i class="fas fa-user-ninja"></i></div>
+                <h4>Harsh Garg</h4>
+                <span>2023228</span>
+            </div>
+
+            <div class="member">
+                <div class="avatar"><i class="fas fa-user-tie"></i></div>
+                <h4>Atin Aggarwal</h4>
+                <span>2023157</span>
+            </div>
+
+            <div class="member">
+                <div class="avatar"><i class="fas fa-user-secret"></i></div>
+                <h4>Abhinav Kashyap</h4>
+                <span>2023022</span>
+            </div>
+
+            <div class="member">
+                <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+                <h4>Tarandeep Singh</h4>
+                <span>2023553</span>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <h2>Ready to connect?</h2>
+        <p style="color: var(--text-muted); margin: 1rem 0;">Check out the source code and documentation.</p>
+        
+        <a href="https://github.com/noco-not-found/Voxio/tree/master" class="github-btn">
+            <i class="fab fa-github"></i> View on GitHub
+        </a>
+        
+        <br><br><br>
+        <p style="font-size: 0.8rem; color: #555;">&copy; 2025 Group 32. Computer Networks Course Project.</p>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const nextArrow = document.querySelector('.next-slide');
+        const prevArrow = document.querySelector('.prev-slide');
+        let currentSlide = 0;
+        let slideInterval;
+        const intervalTime = 12000;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+            resetInterval();
+        }
+
+        function startInterval() {
+            slideInterval = setInterval(nextSlide, intervalTime);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            startInterval();
+        }
+
+        // Event Listeners for arrows
+        nextArrow.addEventListener('click', nextSlide);
+        prevArrow.addEventListener('click', prevSlide);
+
+        // Initial setup
+        showSlide(currentSlide);
+        startInterval();
+    </script>
+</body>
+</html>
