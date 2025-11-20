@@ -377,6 +377,90 @@
             transform: scale(1.1);
         }
 
+        /* --- BONUS SECTION STYLES --- */
+        #bonus {
+            background: #111111; /* Slightly darker background to stand out */
+        }
+        
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column layout for better flow */
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .bonus-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: flex-start;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        
+        .bonus-card:nth-child(even) {
+            border-left: 5px solid var(--accent-secondary);
+        }
+        
+        .bonus-card:nth-child(odd) {
+            border-left: 5px solid var(--accent-primary);
+        }
+
+        .bonus-card:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+            border-color: var(--accent-secondary);
+        }
+        
+        .bonus-marker {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-right: 1.5rem;
+            line-height: 1;
+            /* Gradient for the number */
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            min-width: 50px;
+        }
+
+        .bonus-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        .bonus-content p {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .bonus-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.75rem;
+        }
+        
+        .bonus-content ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        
+        .bonus-content ul li:before {
+            content: "✦"; /* Custom bullet point */
+            position: absolute;
+            left: 0;
+            color: var(--accent-secondary);
+            font-size: 0.8rem;
+        }
+
+
         /* --- TEAM SECTION --- */
         .team-grid {
             display: flex;
@@ -445,6 +529,8 @@
             #summary p { text-align: left; }
             .slideshow-nav { padding: 0 10px; }
             .slideshow-nav-arrow { font-size: 2rem; padding: 0.3rem 0.7rem; }
+            .bonus-marker { font-size: 2rem; min-width: 40px; margin-right: 1rem; }
+            .bonus-card { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -457,7 +543,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#summary">About</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#demo">Demo</a></li>
+                <li><a href="#bonus">Bonus</a></li> <li><a href="#demo">Demo</a></li>
                 <li><a href="#team" class="btn-nav">Group 32</a></li>
             </ul>
         </nav>
@@ -474,9 +560,9 @@
         </div>
 
         <div class="hero-content">
-            <div class="tagline-box">COMPUTER NETWORKS PROJECT</div>
+            <div class="tagline-box">GROUP 32 Presents</div>
             <h1>VOXIO</h1>
-            <h2>by Group 32</h2>
+            <h2>Where Voices Travel Freely.</h2>
             <p>A decentralized, encrypted mesh messenger built for the modern local network.</p>
             <a href="#summary" class="btn-nav" style="border-color: var(--text-main); color: var(--text-main);">Explore Project</a>
         </div>
@@ -544,6 +630,79 @@
                 <h3>TTL & Flooding</h3>
                 <p>Uses a Controlled Flooding algorithm with Time-To-Live (TTL) counters to propagate messages across segmented networks while preventing routing loops.</p>
             </div>
+        </div>
+    </section>
+    
+    <section id="bonus">
+        <h2 class="section-title"><span>Why We Deserve Bonus?</span></h2>
+        <div class="bonus-grid">
+            
+            <div class="bonus-card">
+                <div class="bonus-marker">1</div>
+                <div class="bonus-content">
+                    <h3>DoS Mitigation & Traffic Validation</h3>
+                    <p>We implemented proactive defense mechanisms that limit incoming message size, drop malformed packets, and block replay/flood attacks using message-ID caching.</p>
+                    <p style="color: var(--accent-secondary);">This demonstrates security-aware network programming — something not required but highly valuable.</p>
+                </div>
+            </div>
+
+            <div class="bonus-card">
+                <div class="bonus-marker">2</div>
+                <div class="bonus-content">
+                    <h3>Application-Layer Traceroute</h3>
+                    <p>Every forwarded packet appends the hop path (A → B → C), allowing users to visualize actual routing inside the mesh overlay.</p>
+                    <p style="color: var(--accent-secondary);">This is an advanced diagnostic tool normally seen at the network layer, now implemented in the application layer.</p>
+                </div>
+            </div>
+
+            <div class="bonus-card">
+                <div class="bonus-marker">3</div>
+                <div class="bonus-content">
+                    <h3>Fun + Distributed Special Commands</h3>
+                    <p>We designed multiple commands that require distributed coordination across peers:</p>
+                    <ul>
+                        <li>`/toss` — synchronized coin flip</li>
+                        <li>`/pick` — random active peer selection</li>
+                        <li>`/nudge` — attention alert</li>
+                        <li>`/me` — action broadcast</li>
+                    </ul>
+                    <p style="color: var(--accent-secondary);">These are not simple UI gimmicks — they require network-wide packet handling and secured state sharing.</p>
+                </div>
+            </div>
+
+            <div class="bonus-card">
+                <div class="bonus-marker">4</div>
+                <div class="bonus-content">
+                    <h3>Manual TCP Linking + Multi-port Multi-instance Mode</h3>
+                    <p>If UDP discovery fails (firewalls/VLAN), users can still form the mesh network using:</p>
+                    <ul>
+                        <li>`/connect <IP> <PORT>`</li>
+                    </ul>
+                    <p>We also allow each instance to run custom TCP + UDP ports, enabling:</p>
+                    <ul>
+                        <li>multi-hop simulation on one laptop</li>
+                        <li>complex topologies for testing</li>
+                    </ul>
+                    <p style="color: var(--accent-secondary);">Shows resilience and adaptability to real-world network constraints.</p>
+                </div>
+            </div>
+
+            <div class="bonus-card">
+                <div class="bonus-marker">5</div>
+                <div class="bonus-content">
+                    <h3>Multi-threaded Non-Blocking Architecture</h3>
+                    <p>Separate threads for:</p>
+                    <ul>
+                        <li>UDP beaconing</li>
+                        <li>TCP server</li>
+                        <li>TCP RX handlers</li>
+                        <li>UI loop</li>
+                        <li>Cleanup and retries</li>
+                    </ul>
+                    <p style="color: var(--accent-secondary);">Ensures zero UI freezing, efficient routing, and real networking performance.</p>
+                </div>
+            </div>
+
         </div>
     </section>
 
