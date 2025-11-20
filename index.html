@@ -581,9 +581,9 @@
         </p>
         
         <p>
-            The system implements a robust "Gossip" protocol driven by a <strong>Controlled Flooding</strong> algorithm. To prevent network congestion and infinite loops (the Count-to-Infinity problem), all packets utilize a <strong>Time-To-Live (TTL)</strong> mechanism. A key feature of Voxio is its built-in <strong>Application-Layer Traceroute</strong>, a diagnostic tool that parses packet metadata to reconstruct and visualize the exact multi-hop path a message takes through the mesh, verifying active routing logic in real-time.
+            The system implements a robust "Gossip" protocol driven by a <strong>Controlled Flooding</strong> algorithm. To prevent network congestion and infinite loops (the Count-to-Infinity problem), all packets utilize a <strong>Time-To-Live (TTL)</strong> mechanism. The peers form a resilient daisy-chain topology, ensuring messages can be automatically rerouted through intermediate nodes if a direct link fails, verifying active routing logic in real-time.
         </p>
-
+        
         <p>
             Security and user experience are prioritized through modern cryptographic standards and a rich terminal interface. All private communications are secured using the <strong>Sodium</strong> library's high-speed elliptic curve cryptography (Curve25519), guaranteeing end-to-end privacy. The architecture is further hardened with internal traffic policing and <strong>DoS Protection</strong>, enforcing strict 4KB buffer limits to prevent memory bombs. Powered by non-blocking, multi-threaded I/O, Voxio ensures the interface remains responsive even under heavy network traffic.
         </p>
@@ -616,11 +616,6 @@
                 <p>Utilizes UDP Broadcasting to instantly detect local peers. The system handles automatic handshakes, allowing users to join the mesh without manual configuration.</p>
             </div>
             <div class="card">
-                <i class="fas fa-route"></i>
-                <h3>Overlay Traceroute</h3>
-                <p>A built-in network diagnostic tool that appends node signatures to packet headers, allowing the receiver to visualize the exact path (Trace) the message took.</p>
-            </div>
-            <div class="card">
                 <i class="fas fa-shield-virus"></i>
                 <h3>DoS Traffic Policing</h3>
                 <p>Features internal buffer limits (4KB) and strict disconnect logic to protect the node from memory bombs and malformed packets.</p>
@@ -649,15 +644,6 @@
             <div class="bonus-card">
                 <div class="bonus-marker">2</div>
                 <div class="bonus-content">
-                    <h3>Application-Layer Traceroute</h3>
-                    <p>Every forwarded packet appends the hop path (A → B → C), allowing users to visualize actual routing inside the mesh overlay.</p>
-                    <p style="color: var(--accent-secondary);">This is an advanced diagnostic tool normally seen at the network layer, now implemented in the application layer.</p>
-                </div>
-            </div>
-
-            <div class="bonus-card">
-                <div class="bonus-marker">3</div>
-                <div class="bonus-content">
                     <h3>Fun + Distributed Special Commands</h3>
                     <p>We designed multiple commands that require distributed coordination across peers:</p>
                     <ul>
@@ -671,7 +657,7 @@
             </div>
 
             <div class="bonus-card">
-                <div class="bonus-marker">4</div>
+                <div class="bonus-marker">3</div>
                 <div class="bonus-content">
                     <h3>Manual TCP Linking + Multi-port Multi-instance Mode</h3>
                     <p>If UDP discovery fails (firewalls/VLAN), users can still form the mesh network using:</p>
@@ -688,7 +674,7 @@
             </div>
 
             <div class="bonus-card">
-                <div class="bonus-marker">5</div>
+                <div class="bonus-marker">4</div>
                 <div class="bonus-content">
                     <h3>Multi-threaded Non-Blocking Architecture</h3>
                     <p>Separate threads for:</p>
